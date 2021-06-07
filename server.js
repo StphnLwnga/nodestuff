@@ -39,12 +39,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type');
-//   res.header('Access-Control-Expose-Headers', '*')
-//   next();
-// })
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Expose-Headers', '*')
+  next();
+})
 
 io.use(
 	passportSocketIo.authorize({
