@@ -40,10 +40,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Expose-Headers', '*')
-  next();
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+	res.header('Access-Control-Expose-Headers', '*')
+	next();
 })
 
 io.use(
@@ -68,7 +68,7 @@ myDB(async client => {
 	io.on('connection', socket => {
 		++currentUsers;
 		io.emit(
-			'user', 
+			'user',
 			{
 				name: socket.request.user.name,
 				currentUsers,
@@ -79,10 +79,10 @@ myDB(async client => {
 
 		socket.on('chat message', message => {
 			io.emit(
-				'chat message', 
-				{ 
-					name: socket.request.user.name, 
-					message, 
+				'chat message',
+				{
+					name: socket.request.user.name,
+					message,
 				}
 			);
 		})
@@ -91,7 +91,7 @@ myDB(async client => {
 			console.log('user disconnected');
 			--currentUsers;
 			io.emit(
-				'user', 
+				'user',
 				{
 					name: socket.request.user.name,
 					currentUsers,
@@ -99,11 +99,6 @@ myDB(async client => {
 				}
 			);
 		})
-	});
-
-	const PORT = process.env.PORT || 3000;
-	http.listen(PORT, () => {
-		console.log('Listening on port ' + PORT);
 	});
 }).catch(e => {
 	app.route('/').get((req, res) => {
@@ -118,6 +113,11 @@ function onAuthorizeSuccess(data, accept) {
 
 function onAuthorizeFail(data, message, error, accept) {
 	if (error) throw new Error(message);
-  console.log('failed connection to socket.io:', message);
-  accept(null, false);
+	console.log('failed connection to socket.io:', message);
+	accept(null, false);
 }
+
+const PORT = process.env.PORT || 3000;
+http.listen(PORT, () => {
+	console.log('Listening on port ' + PORT);
+});
